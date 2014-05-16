@@ -53,7 +53,7 @@ VIIRS_IR_BANDS = ('M16', 'M15', 'M14', 'M13', 'M12', 'I5', 'I4')
 VIIRS_VIS_BANDS = ('M1', 'M2', 'M3', 'M4', 'M5', 'M6', 
                    'M7', 'M8', 'M9', 'M10', 'M11',
                    'I1', 'I2', 'I3')
-VIIRS_DNB_BANDS = ('DNB', )
+VIIRS_DNB_BANDS = ('DNB','N/A' )
 
 logger = logging.getLogger(__name__)
 
@@ -147,7 +147,7 @@ class NPPMetaData(HDF5MetaData):
         if band[0] == 'M':
             if shape != VIIRS_MBAND_GRANULE_SIZE:
                 raise ValueError("Unsupported granule size %s for %s" % (shape, band))
-        elif band == "DNB":
+        elif band in VIIRS_DNB_BANDS:
             if shape != VIIRS_DNB_GRANULE_SIZE:
                 raise ValueError("Unsupported granule size %s for %s" % (shape, band))
         elif band[0] == "I":
