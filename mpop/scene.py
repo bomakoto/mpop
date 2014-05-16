@@ -795,7 +795,7 @@ def assemble_segments(segments):
         for chn in channels:
             if chn not in viirs_sdr.VIIRS_DNB_BANDS:
                 units="W m-2 um-1 sr-1"
-        elif chn in viirs_sdr.VIIRS_DNB_BANDS:
+            elif chn in viirs_sdr.VIIRS_DNB_BANDS:
                 units="W m-2 sr-1"
         new_scene[chn].info["units"]=units
 
