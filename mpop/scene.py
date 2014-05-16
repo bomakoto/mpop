@@ -768,5 +768,35 @@ def assemble_segments(segments):
                     pass
     except AttributeError:
         pass
+    #Give units,
+    #This doesn't consider other satellite scenes...
+    #For NPP viirs only.
+    from mpop.satin import viirs_sdr
+    units_calibrate=1
+    for seg in segments:
+        if units_calibrate==2:
+            break
+        for chn in channels:
+            if chn not in viirs_sdr.VIIRS_DNB_BANDS:
+               if seg[chn].info["units"]=="W m-2 um-1 sr-1":
+                    units_calibrate=2
+                    break
+                   
+    if units_calibrate==1:
+        for chn in channels:
+            if chn in viirs_sdr.VIIRS_IR_BANDS:
+                units="K"
+            elif chn in viirs_sdr.VIIRS_VIS_BANDS:
+                units="%"
+            elif chn in viirs_sdr.VIIRS_DNB_BANDS:
+                units="W m-2 sr-1"
+        new_scene[chn].info["units"]=units
+    elif units_calibrate==2:
+        for chn in channels:
+            if chn not in viirs_sdr.VIIRS_DNB_BANDS:
+                units="W m-2 um-1 sr-1"
+        elif chn in viirs_sdr.VIIRS_DNB_BANDS:
+                units="W m-2 sr-1"
+        new_scene[chn].info["units"]=units
 
     return new_scene
